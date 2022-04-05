@@ -15,6 +15,8 @@ interface UserProps {
 	email: string;
 	created_at: string;
 	password: string;
+	unitId: string;
+	companyId: string;
 }
 
 export const makeServer = () => {
@@ -38,6 +40,12 @@ export const makeServer = () => {
 				},
 				createdAt: () => {
 					return faker.date.recent(10);
+				},
+				unitId: () => {
+					return String(faker.random.number({ min: 1, max: 2 }));
+				},
+				companyId: () => {
+					return "1";
 				},
 			}),
 		},
@@ -67,11 +75,10 @@ export const makeServer = () => {
 				return new Response(200, { "x-total-count": String(total) }, { users });
 			});
 
-			this.del("/users/:id");
-			this.patch("/users/:id");
-
 			this.get("/users/:id");
 			this.post("/users");
+			this.del("/users/:id");
+			this.patch("/users/:id");
 
 			this.namespace = "";
 			this.passthrough();
