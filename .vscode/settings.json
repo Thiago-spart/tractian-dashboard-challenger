@@ -101,6 +101,7 @@
 		"preconnect",
 		"unstyled",
 		"dashgo",
-		"prefetch"
+		"prefetch",
+		"serializers"
 	]
 }

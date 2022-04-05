@@ -52,6 +52,7 @@ export const UserList: FCWithLayout = () => {
 			["user", { userId }],
 			async () => {
 				const res = await api.get(`users/${userId}`);
+				console.log(res.data);
 
 				return res.data;
 			},
