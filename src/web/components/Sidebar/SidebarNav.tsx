@@ -1,9 +1,10 @@
 import { Stack } from "@chakra-ui/react";
 import {
+	RiCommunityLine,
 	RiContactsLine,
 	RiDashboardLine,
 	RiGitMergeLine,
-	RiInputMethodLine,
+	RiRemoteControlLine,
 } from "react-icons/ri";
 
 import { NavLink } from "./NavLink";
@@ -14,12 +15,13 @@ export const SidebarNav: React.FC = () => {
 		<Stack spacing="12" align="flex-start">
 			<NavSection title="General">
 				<NavLink icon={RiDashboardLine} title="Dashboard" href="/dashboard" />
-				<NavLink icon={RiContactsLine} title="Users" href="/users" />
+				<NavLink icon={RiCommunityLine} title="Companies" href="/companies" />
 			</NavSection>
 
 			<NavSection title="Automation">
-				<NavLink icon={RiInputMethodLine} title="Forms" href="/forms" />
-				<NavLink icon={RiGitMergeLine} title="Automation" href="/automation" />
+				<NavLink icon={RiContactsLine} title="Users" href="/users" />
+				<NavLink icon={RiGitMergeLine} title="Units" href="/units" />
+				<NavLink icon={RiRemoteControlLine} title="Assets" href="/assets" />
 			</NavSection>
 		</Stack>
 	);
