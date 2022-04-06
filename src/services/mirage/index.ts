@@ -65,6 +65,8 @@ export const makeServer = () => {
 			this.del("/users/:id");
 			this.patch("/users/:id");
 
+			this.get("/companies");
+
 			this.namespace = "";
 			this.passthrough();
 		},
