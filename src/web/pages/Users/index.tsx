@@ -21,7 +21,7 @@ import {
 	Link as ChakraLink,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { RiAddLine, RiCloseLine, RiPencilLine } from "react-icons/ri";
+import { RiAddLine, RiPencilLine } from "react-icons/ri";
 
 import { HeadTitle } from "web/components/HeadTitle";
 import { NextLink } from "web/components/NextLink";
@@ -52,7 +52,6 @@ export const UserList: FCWithLayout = () => {
 			["user", { userId }],
 			async () => {
 				const res = await api.get(`users/${userId}`);
-				console.log(res.data);
 
 				return res.data;
 			},
