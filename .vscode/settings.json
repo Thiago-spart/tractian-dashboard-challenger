@@ -102,6 +102,7 @@
 		"unstyled",
 		"dashgo",
 		"prefetch",
-		"serializers"
+		"serializers",
+		"healthscore"
 	]
 }

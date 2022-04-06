@@ -1,23 +1,18 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import faker from "faker";
-import {
-	ActiveModelSerializer,
-	createServer,
-	Factory,
-	Model,
-	Response,
-} from "miragejs";
+import { ActiveModelSerializer, createServer, Model, Response } from "miragejs";
 
-interface UserProps {
-	name: string;
-	email: string;
-	created_at: string;
-	password: string;
-	unitId: string;
-	companyId: string;
-}
+import type { AssetsProps } from "types/assets";
+
+import type { CompanyProps } from "types/company";
+import type { UnitProps } from "types/units";
+import type { UserProps } from "types/users";
+
+import { assetFactory } from "./factories/assetFactory";
+import { companyFactory } from "./factories/companyFactory";
+import { unitFactory } from "./factories/unitFactory";
+import { userFactory } from "./factories/userFactory";
 
 export const makeServer = () => {
 	const server = createServer({
@@ -26,31 +21,21 @@ export const makeServer = () => {
 		},
 		models: {
 			user: Model.extend<Partial<UserProps>>({}),
+			company: Model.extend<Partial<CompanyProps>>({}),
+			unit: Model.extend<Partial<UnitProps>>({}),
+			asset: Model.extend<Partial<AssetsProps>>({}),
 		},
 		factories: {
-			user: Factory.extend({
-				name: () => {
-					return faker.name.findName();
-				},
-				email: () => {
-					return faker.internet.email().toLowerCase();
-				},
-				password: () => {
-					return faker.internet.password();
-				},
-				createdAt: () => {
-					return faker.date.recent(10);
-				},
-				unitId: () => {
-					return String(faker.random.number({ min: 1, max: 2 }));
-				},
-				companyId: () => {
-					return "1";
-				},
-			}),
+			user: userFactory,
+			company: companyFactory,
+			unit: unitFactory,
+			asset: assetFactory,
 		},
 		seeds: serverSeeds => {
-			serverSeeds.createList("user", 200);
+			serverSeeds.createList("user", 50);
+			serverSeeds.createList("company", 1);
+			serverSeeds.createList("unit", 2);
+			serverSeeds.createList("asset", 20);
 		},
 		routes() {
 			this.namespace = "api";
