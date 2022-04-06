@@ -22,7 +22,7 @@ import { RiAddLine, RiPencilLine } from "react-icons/ri";
 import { HeadTitle } from "web/components/HeadTitle";
 import { NextLink } from "web/components/NextLink";
 
-import { ConfirmDeleteDialog } from "../Users/components/ConfirmDeleteDialog";
+import { ConfirmDeleteDialog } from "../../components/ConfirmDeleteDialog";
 
 import { useCompanies } from "services/hooks/useCompanies";
 
@@ -110,7 +110,12 @@ export const CompaniesPage: FCWithLayout = () => {
 														</Button>
 													</NextLink>
 
-													<ConfirmDeleteDialog userId={id} refetch={refetch} />
+													<ConfirmDeleteDialog
+														id={id}
+														deletePath="companies"
+														headerMessage="company"
+														refetch={refetch}
+													/>
 												</Flex>
 											</Td>
 										)}

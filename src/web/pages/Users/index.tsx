@@ -27,7 +27,7 @@ import { HeadTitle } from "web/components/HeadTitle";
 import { NextLink } from "web/components/NextLink";
 import { Pagination } from "web/components/Pagination";
 
-import { ConfirmDeleteDialog } from "./components/ConfirmDeleteDialog";
+import { ConfirmDeleteDialog } from "../../components/ConfirmDeleteDialog";
 
 import { useUsers } from "../../../services/hooks/useUsers";
 
@@ -146,7 +146,12 @@ export const UserList: FCWithLayout = () => {
 														</Button>
 													</NextLink>
 
-													<ConfirmDeleteDialog userId={id} refetch={refetch} />
+													<ConfirmDeleteDialog
+														id={id}
+														refetch={refetch}
+														deletePath="users"
+														headerMessage="user"
+													/>
 												</Flex>
 											</Td>
 										)}

@@ -10,7 +10,7 @@ import {
 	Icon,
 	useDisclosure,
 } from "@chakra-ui/react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { RiCloseLine } from "react-icons/ri";
 import type {
 	QueryObserverResult,
@@ -21,22 +21,27 @@ import type {
 import { api } from "services/api";
 
 interface ConfirmDeleteDialogProps {
-	userId: string;
+	id: string;
+	headerMessage: string;
+	deletePath: string;
 	refetch: <TPageData>(
 		options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
 	) => Promise<QueryObserverResult<any>>;
 }
 
 export const ConfirmDeleteDialog: React.FC<ConfirmDeleteDialogProps> = ({
-	userId,
+	id,
 	refetch,
+	headerMessage,
+	deletePath,
 }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
+	const [isDeleting, setIsDeleting] = useState(false);
 	const cancelRef = useRef(null);
-
-	const deleteUser = async (id: string) => {
+	const deleteUser = async (deletedId: string) => {
 		try {
-			const res = await api.delete(`users/${id}`);
+			setIsDeleting(true);
+			const res = await api.delete(`${deletePath}/${deletedId}`);
 
 			refetch();
 
@@ -44,6 +49,7 @@ export const ConfirmDeleteDialog: React.FC<ConfirmDeleteDialogProps> = ({
 		} catch (err: unknown) {
 			return err;
 		} finally {
+			setIsDeleting(false);
 			onClose();
 		}
 	};
@@ -71,7 +77,7 @@ export const ConfirmDeleteDialog: React.FC<ConfirmDeleteDialogProps> = ({
 				<AlertDialogOverlay>
 					<AlertDialogContent bgColor="gray.800">
 						<AlertDialogHeader fontSize="lg" fontWeight="bold">
-							Delete User
+							Delete {headerMessage}
 						</AlertDialogHeader>
 
 						<AlertDialogBody>
@@ -83,13 +89,15 @@ export const ConfirmDeleteDialog: React.FC<ConfirmDeleteDialogProps> = ({
 								ref={cancelRef}
 								onClick={onClose}
 								colorScheme="whiteAlpha"
+								isDisabled={isDeleting}
 							>
 								Cancel
 							</Button>
 							<Button
 								colorScheme="red"
-								onClick={() => deleteUser(userId)}
+								onClick={() => deleteUser(id)}
 								ml={3}
+								isLoading={isDeleting}
 							>
 								Delete
 							</Button>
