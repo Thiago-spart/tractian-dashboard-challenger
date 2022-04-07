@@ -97,14 +97,14 @@ export const CompaniesPage: FCWithLayout = () => {
 										{isWideVersion && (
 											<Td>
 												<Flex align="center" justify="center" gap="4">
-													<NextLink href={`/users/edit/${id}`}>
+													<NextLink href={`/companies/edit/${id}`}>
 														<Button
 															as="button"
 															size="sm"
 															fontSize="sm"
 															colorScheme="purple"
 															cursor="pointer"
-															aria-label="Edit user"
+															aria-label="Edit company"
 														>
 															<Icon as={RiPencilLine} fontSize="16" />
 														</Button>

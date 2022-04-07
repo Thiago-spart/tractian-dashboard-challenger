@@ -66,6 +66,7 @@ export const makeServer = () => {
 			this.patch("/users/:id");
 
 			this.get("/companies");
+			this.get("/companies/:id");
 			this.post("/companies");
 			this.del("/companies/:id");
 			this.patch("/companies/:id");
