@@ -25,7 +25,7 @@ export const assetFactory = Factory.extend({
 		return faker.random.arrayElements(["inAlert", "inDowntime", "inOperation"]);
 	},
 	healthscore: () => {
-		return faker.random.number({ min: 50, max: 92, precision: 0.01 });
+		return faker.datatype.number({ min: 50, max: 92, precision: 0.01 });
 	},
 	Image: () => {
 		return faker.random.arrayElements([
@@ -43,21 +43,21 @@ export const assetFactory = Factory.extend({
 	},
 	specifications: {
 		maxTemp: () => {
-			return faker.random.number({ min: 60, max: 82 });
+			return faker.datatype.number({ min: 60, max: 82 });
 		},
 		power: () => {
-			return faker.random.number({ min: 0, max: 1.5, precision: 0.1 });
+			return faker.datatype.number({ min: 0, max: 1.5, precision: 0.1 });
 		},
 		rpm: () => {
-			return faker.random.number({ min: 800, max: 1800 });
+			return faker.datatype.number({ min: 800, max: 1800 });
 		},
 	},
 	metrics: {
 		totalCollectsUptime: () => {
-			return faker.random.number({ min: 850, max: 9000 });
+			return faker.datatype.number({ min: 850, max: 9000 });
 		},
 		totalUptime: () => {
-			return faker.random.number({
+			return faker.datatype.number({
 				min: 1300,
 				max: 1600,
 				precision: 0.0000000000001,
@@ -68,7 +68,7 @@ export const assetFactory = Factory.extend({
 		},
 	},
 	unitId: () => {
-		return String(faker.random.number({ min: 1, max: 2 }));
+		return String(faker.datatype.number({ min: 1, max: 2 }));
 	},
 	companyId: () => {
 		return "1";
