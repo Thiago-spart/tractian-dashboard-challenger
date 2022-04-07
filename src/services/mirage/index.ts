@@ -71,11 +71,11 @@ export const makeServer = () => {
 			this.del("/companies/:id");
 			this.patch("/companies/:id");
 
-			this.get("/unities");
-			this.get("/unities/:id");
-			this.post("/unities");
-			this.del("/unities/:id");
-			this.patch("/unities/:id");
+			this.get("/units");
+			this.get("/units/:id");
+			this.post("/units");
+			this.del("/units/:id");
+			this.patch("/units/:id");
 
 			this.namespace = "";
 			this.passthrough();

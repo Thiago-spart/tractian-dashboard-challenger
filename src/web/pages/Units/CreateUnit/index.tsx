@@ -16,7 +16,6 @@ import {
 	SimpleGrid,
 	VStack,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
@@ -32,83 +31,60 @@ import type { FCWithLayout } from "types/interfaces/layout";
 import { api } from "../../../../services/api";
 import { queryClient } from "../../../../services/queryClient";
 
-interface EditCompanyDataFormProps {
+interface UnitDataFormProps {
 	name: string;
 }
 
-const EditCompanyFormSchema = yup.object().shape({
+const CreateUnitFormSchema = yup.object().shape({
 	name: yup.string().required(),
 });
 
-export const EditCompany: FCWithLayout = () => {
-	const [selectedCompany, setSelectedCompany] =
-		useState<EditCompanyDataFormProps>();
-
+export const CreateUnit: FCWithLayout = () => {
 	const router = useRouter();
-	const companyId = router.query.slug;
 
-	const { register, handleSubmit, formState, setValue } =
-		useForm<EditCompanyDataFormProps>({
-			resolver: yupResolver(EditCompanyFormSchema),
-		});
-
-	const { errors } = formState;
-
-	const updateCompany = useMutation(
-		async (company) => {
-			const res = await api.patch(`companies/${companyId}`, {
-				company: {
-					...company,
-					updateAt: new Date(),
+	const createUnit = useMutation(
+		async (unit: UnitDataFormProps) => {
+			const res = await api.post("units", {
+				unit: {
+					...unit,
+					createdAt: new Date(),
 				},
 			});
 
-			return res.data.company;
+			return res.data.unit;
 		},
 		{
 			onSuccess: () => {
-				queryClient.invalidateQueries("companies");
+				queryClient.invalidateQueries("units");
 			},
 		}
 	);
 
-	const handleUpdateCompany: SubmitHandler<EditCompanyDataFormProps> = async (
-		values
-	) => {
-		await updateCompany.mutateAsync(values);
+	const { register, handleSubmit, formState } = useForm({
+		resolver: yupResolver(CreateUnitFormSchema),
+	});
+	const { errors } = formState;
 
-		router.push("/companies");
+	const handleCreateUnit: SubmitHandler<UnitDataFormProps> = async (values) => {
+		await createUnit.mutateAsync(values);
+
+		router.push("/units");
 	};
-
-	useEffect(() => {
-		const getCompanyInfo = async () => {
-			const res = await api.get(`companies/${companyId}`);
-			setSelectedCompany(res.data.company);
-		};
-
-		getCompanyInfo();
-	}, [companyId]);
-
-	useEffect(() => {
-		if (!selectedCompany) return;
-
-		setValue("name", selectedCompany.name);
-	}, [selectedCompany, setValue]);
 
 	return (
 		<>
-			<HeadTitle title="Edit Company" />
+			<HeadTitle title="Add unit" />
 
 			<Box
 				as="form"
-				onSubmit={handleSubmit(handleUpdateCompany)}
+				onSubmit={handleSubmit(handleCreateUnit)}
 				flex="1"
 				borderRadius="8"
 				bg="gray.800"
 				p={["6", "8"]}
 			>
 				<Heading size="lg" fontWeight="normal">
-					Edit Company
+					Create unit
 				</Heading>
 
 				<Divider my="6" borderColor="gray.700" />
@@ -116,8 +92,8 @@ export const EditCompany: FCWithLayout = () => {
 				<VStack spacing="8">
 					<SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
 						<Input
-							label="Complete Name"
-							{...register("name", { disabled: !selectedCompany?.name })}
+							label="unit's name"
+							{...register("name")}
 							error={errors.name}
 						/>
 					</SimpleGrid>
@@ -125,7 +101,7 @@ export const EditCompany: FCWithLayout = () => {
 
 				<Flex mt="8" justify="flex-end">
 					<HStack spacing="4">
-						<Link href="/companies" passHref>
+						<Link href="/units" passHref>
 							<Button
 								as="a"
 								colorScheme="whiteAlpha"
