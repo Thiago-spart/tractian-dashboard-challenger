@@ -32,83 +32,82 @@ import type { FCWithLayout } from "types/interfaces/layout";
 import { api } from "../../../../services/api";
 import { queryClient } from "../../../../services/queryClient";
 
-interface EditCompanyDataFormProps {
+interface EditUnitDataFormProps {
 	name: string;
 }
 
-const EditCompanyFormSchema = yup.object().shape({
+const EditUnitFormSchema = yup.object().shape({
 	name: yup.string().required(),
 });
 
-export const EditCompany: FCWithLayout = () => {
-	const [selectedCompany, setSelectedCompany] =
-		useState<EditCompanyDataFormProps>();
+export const EditUnit: FCWithLayout = () => {
+	const [selectedUnit, setSelectedUnit] = useState<EditUnitDataFormProps>();
 
 	const router = useRouter();
-	const companyId = router.query.slug;
+	const unitId = router.query.slug;
 
 	const { register, handleSubmit, formState, setValue } =
-		useForm<EditCompanyDataFormProps>({
-			resolver: yupResolver(EditCompanyFormSchema),
+		useForm<EditUnitDataFormProps>({
+			resolver: yupResolver(EditUnitFormSchema),
 		});
 
 	const { errors } = formState;
 
-	const updateCompany = useMutation(
-		async (company) => {
-			const res = await api.patch(`companies/${companyId}`, {
-				company: {
-					...company,
+	const updateUnit = useMutation(
+		async (unit) => {
+			const res = await api.patch(`units/${unitId}`, {
+				unit: {
+					...unit,
 					updateAt: new Date(),
 				},
 			});
 
-			return res.data.company;
+			return res.data.unit;
 		},
 		{
 			onSuccess: () => {
-				queryClient.invalidateQueries("companies");
+				queryClient.invalidateQueries("units");
 			},
 		}
 	);
 
-	const handleUpdateCompany: SubmitHandler<EditCompanyDataFormProps> = async (
+	const handleUpdateUnit: SubmitHandler<EditUnitDataFormProps> = async (
 		values
 	) => {
-		await updateCompany.mutateAsync(values);
+		await updateUnit.mutateAsync(values);
 
-		router.push("/companies");
+		router.push("/units");
 	};
 
 	useEffect(() => {
-		const getCompanyInfo = async () => {
-			const res = await api.get(`companies/${companyId}`);
-			setSelectedCompany(res.data.company);
+		const getUnitInfo = async () => {
+			const res = await api.get(`units/${unitId}`);
+			setSelectedUnit(res.data.unit);
 		};
 
-		getCompanyInfo();
-	}, [companyId]);
+		getUnitInfo();
+	}, [unitId]);
 
 	useEffect(() => {
-		if (!selectedCompany) return;
+		if (!selectedUnit) return;
 
-		setValue("name", selectedCompany.name);
-	}, [selectedCompany, setValue]);
+		setValue("name", selectedUnit.name);
+	}, [selectedUnit, setValue]);
 
 	return (
 		<>
-			<HeadTitle title="Edit Company" />
+			<HeadTitle title="Edit Unit" />
 
 			<Box
 				as="form"
-				onSubmit={handleSubmit(handleUpdateCompany)}
+				onSubmit={handleSubmit(handleUpdateUnit)}
 				flex="1"
 				borderRadius="8"
 				bg="gray.800"
 				p={["6", "8"]}
 			>
 				<Heading size="lg" fontWeight="normal">
-					Edit Company
+					Edit Unit
 				</Heading>
 
 				<Divider my="6" borderColor="gray.700" />
@@ -117,7 +116,7 @@ export const EditCompany: FCWithLayout = () => {
 					<SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
 						<Input
 							label="Complete Name"
-							{...register("name", { disabled: !selectedCompany?.name })}
+							{...register("name", { disabled: !selectedUnit?.name })}
 							error={errors.name}
 						/>
 					</SimpleGrid>
@@ -125,7 +124,7 @@ export const EditCompany: FCWithLayout = () => {
 
 				<Flex mt="8" justify="flex-end">
 					<HStack spacing="4">
-						<Link href="/companies" passHref>
+						<Link href="/units" passHref>
 							<Button
 								as="a"
 								colorScheme="whiteAlpha"
