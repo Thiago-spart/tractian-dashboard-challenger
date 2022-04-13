@@ -65,6 +65,34 @@ export const makeServer = () => {
 			this.del("/users/:id");
 			this.patch("/users/:id");
 
+			this.get("/assets", function (schema, request) {
+				const { page = 1, per_page = 10 } = request.queryParams;
+
+				const pageAsNumber = Number(page);
+				const perPageAsNumber = Number(per_page);
+
+				const total = schema.all("user").length;
+
+				const pageStart = (pageAsNumber - 1) * perPageAsNumber;
+				const pageEnd = pageStart + perPageAsNumber;
+
+				const assets = this.serialize(schema.all("asset")).assets.slice(
+					pageStart,
+					pageEnd,
+				);
+
+				return new Response(
+					200,
+					{ "x-total-count": String(total) },
+					{ assets },
+				);
+			});
+
+			this.get("/assets/:id");
+			this.post("/assets");
+			this.del("/assets/:id");
+			this.patch("/assets/:id");
+
 			this.get("/companies");
 			this.get("/companies/:id");
 			this.post("/companies");
