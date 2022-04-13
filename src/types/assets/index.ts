@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+import { string } from "yup";
+
 export interface MetricsProps {
 	totalCollectsUptime: number;
 	totalUptime: number;
@@ -10,7 +13,7 @@ export interface SpecificationsProps {
 	rpm?: number | null;
 }
 
-export interface AssetsProps {
+export interface BaseAssetsProps {
 	sensors: [string];
 	model: string;
 	status: "inAlert" | "inDowntime" | "inOperation";
@@ -21,4 +24,10 @@ export interface AssetsProps {
 	metrics: MetricsProps;
 	unitId: string;
 	companyId: string;
+	unit_id: string;
+	company_id: string;
 }
+
+export type AssetsProps = Omit<BaseAssetsProps, "company_id" | "unit_id">;
+
+export type AssetsServerProps = Omit<BaseAssetsProps, "companyId" | "unitId">;

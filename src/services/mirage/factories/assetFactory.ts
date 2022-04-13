@@ -4,7 +4,7 @@ import { Factory } from "miragejs";
 
 export const assetFactory = Factory.extend({
 	name: () => {
-		return faker.random.arrayElements([
+		return faker.random.arrayElement([
 			"Motor H13D-1",
 			"Motor H12D-1",
 			"Motor H12D-2",
@@ -22,13 +22,13 @@ export const assetFactory = Factory.extend({
 		return faker.name.firstName();
 	},
 	status: () => {
-		return faker.random.arrayElements(["inAlert", "inDowntime", "inOperation"]);
+		return faker.random.arrayElement(["inAlert", "inDowntime", "inOperation"]);
 	},
 	healthscore: () => {
 		return faker.datatype.number({ min: 50, max: 92, precision: 0.01 });
 	},
 	Image: () => {
-		return faker.random.arrayElements([
+		return faker.random.arrayElement([
 			"https://tractian-img.s3.amazonaws.com/6d5028682016cb43d02b857d4f1384ae.jpeg",
 			"https://tractian-img.s3.amazonaws.com/dc8a497655c688ce381d6a3ba4af684d.jpeg",
 			"https://tractian-img.s3.amazonaws.com/646a1fe6494d3a7405908076a5ac1429.jpeg",
