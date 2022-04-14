@@ -118,9 +118,10 @@ export const EditAsset: FCWithLayout = () => {
 		}
 	);
 
-	const { register, handleSubmit, formState, setValue } = useForm({
-		resolver: yupResolver(EditAssetFormSchema),
-	});
+	const { register, handleSubmit, formState, setValue } =
+		useForm<EditAssetDataFormProps>({
+			resolver: yupResolver(EditAssetFormSchema),
+		});
 	const { errors } = formState;
 
 	const handleUpdateAsset: SubmitHandler<EditAssetDataFormProps> = async (
@@ -164,7 +165,7 @@ export const EditAsset: FCWithLayout = () => {
 				p={["6", "8"]}
 			>
 				<Heading size="lg" fontWeight="normal">
-					Create asset
+					Edit asset
 				</Heading>
 
 				<Divider my="6" borderColor="gray.700" />
