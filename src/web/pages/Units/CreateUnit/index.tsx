@@ -46,7 +46,7 @@ export const CreateUnit: FCWithLayout = () => {
 		async (unit: UnitDataFormProps) => {
 			const res = await api.post("units", {
 				unit: {
-					...unit,
+					name: `Unit ${unit.name}`,
 					createdAt: new Date(),
 				},
 			});
@@ -92,7 +92,8 @@ export const CreateUnit: FCWithLayout = () => {
 				<VStack spacing="8">
 					<SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
 						<Input
-							label="unit's name"
+							leftAddon="Unit"
+							label="Name"
 							{...register("name")}
 							error={errors.name}
 						/>

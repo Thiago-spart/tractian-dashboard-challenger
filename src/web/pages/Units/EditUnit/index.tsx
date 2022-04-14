@@ -54,10 +54,10 @@ export const EditUnit: FCWithLayout = () => {
 	const { errors } = formState;
 
 	const updateUnit = useMutation(
-		async (unit) => {
+		async (unit: EditUnitDataFormProps) => {
 			const res = await api.patch(`units/${unitId}`, {
 				unit: {
-					...unit,
+					name: `Unit ${unit.name}`,
 					updateAt: new Date(),
 				},
 			});
@@ -91,7 +91,7 @@ export const EditUnit: FCWithLayout = () => {
 	useEffect(() => {
 		if (!selectedUnit) return;
 
-		setValue("name", selectedUnit.name);
+		setValue("name", selectedUnit.name.replace("Unit ", ""));
 	}, [selectedUnit, setValue]);
 
 	return (
@@ -115,6 +115,7 @@ export const EditUnit: FCWithLayout = () => {
 				<VStack spacing="8">
 					<SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
 						<Input
+							leftAddon="Unit"
 							label="Complete Name"
 							{...register("name", { disabled: !selectedUnit?.name })}
 							error={errors.name}
