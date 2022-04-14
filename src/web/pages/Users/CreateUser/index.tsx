@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/comma-dangle */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
@@ -29,7 +30,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 import { Input } from "web/components/Form/Input";
+import { Select } from "web/components/Form/Select";
 import { HeadTitle } from "web/components/HeadTitle";
+
+import { useCompanies } from "services/hooks/useCompanies";
+import { useUnits } from "services/hooks/useUnits";
 
 import type { FCWithLayout } from "types/interfaces/layout";
 
@@ -41,6 +46,8 @@ interface CreateUserDataFormProps {
 	email: string;
 	password: string;
 	password_confirmation: string;
+	company_id: string;
+	unit_id: string;
 }
 
 const CreateUserFormSchema = yup.object().shape({
@@ -50,11 +57,21 @@ const CreateUserFormSchema = yup.object().shape({
 	password_confirmation: yup
 		.string()
 		.oneOf([null, yup.ref("password")], "password must be the same"),
+	company_id: yup.string().required(),
+	unit_id: yup.string().required(),
 });
 
 export const CreateUser: FCWithLayout = () => {
 	const router = useRouter();
 	const [showPassword, setShowPassword] = useState(false);
+
+	const companyData = useCompanies().data?.companies.map((company) => {
+		return { value: company.id, optionName: company.name };
+	});
+
+	const unitData = useUnits().data?.units.map((unit) => {
+		return { value: unit.id, optionName: unit.name };
+	});
 
 	const handlePasswordVisibility = () => setShowPassword(!showPassword);
 	const createUser = useMutation(
@@ -118,6 +135,24 @@ export const CreateUser: FCWithLayout = () => {
 							label="E-mail"
 							{...register("email")}
 							error={errors.email}
+						/>
+					</SimpleGrid>
+
+					<SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
+						<Select
+							{...register("company_id")}
+							error={errors.company_id}
+							name="company_id"
+							label="Company"
+							options={companyData ? companyData : []}
+						/>
+
+						<Select
+							{...register("unit_id")}
+							error={errors.unit_id}
+							name="unit_id"
+							label="Unit"
+							options={unitData ? unitData : []}
 						/>
 					</SimpleGrid>
 
