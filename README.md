@@ -1,18 +1,17 @@
 <div align="center" id="top">
   <img src=".github/readme-logo.png" alt="Dashgo's logo" />
 </div>
-
 <hr/>
 <br>
 
 ## About
 
-A Dashboard made it for MVPs with support to many providers.
+A Dashboard made it for MVPs with support for many providers.
 
 ## Screenshots
 
 <div align="center" id="top">
-  <img src=".github/page-example.png" alt="CRUD Page" />
+  <img src=".github/page-example.gif" alt="CRUD Page" />
 </div>
 <br/>
 
@@ -21,6 +20,7 @@ A Dashboard made it for MVPs with support to many providers.
 - complete CRUD.
 - Auth2.
 - Easy to understand and change.
+- Easy to make mocked back-end.
 
 ## Technologies
 
