@@ -32,8 +32,7 @@
 				],
 				"alphabetize": {
 					"order": "asc",
-					"ignoreCase": true,
-					"@next/next/no-img-element": false
+					"ignoreCase": true
 				}
 			}
 		]
